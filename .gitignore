@@ -1,0 +1,46 @@
+# Python/Django
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Virtual Environment
+venv/
+env/
+env_*/
+.venv/
+
+# Django migration files
+*/migrations/
+
+# NPM/Yarn
+node_modules/
+
+# Compiled files
+dist/
+build/
+*.log
+
+# Editor/IDE files
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Docker
+.docker/
+
+# Frontend build
+frontend/build/
+
+# Ignore Docker Compose override files, typically used to extend services in docker-compose.yml
+docker-compose.override.yml
+
+# Log files
+*.log
+log/
+logs/
