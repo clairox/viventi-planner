@@ -51,39 +51,39 @@ class Event(models.Model):
             ),
             # Ensure 'event_slug' and 'edit_token' contain values when and only when event is verified
             models.CheckConstraint(
-                check={
-                    (
-                        models.Q(verified=True) &
-                        models.Q(event_slug__isnull=False) &
-                        models.Q(edit_token__isnull=False)
+                check=(
+                    models.Q(
+                        verified=True,
+                        event_slug__isnull=False,
+                        edit_token__isnull=False
                     ) |
-                    (
-                        models.Q(verified=False) &
-                        models.Q(event_slug__isnull=True) &
-                        models.Q(edit_token__isnull=True)
+                    models.Q(
+                        verified=False,
+                        event_slug__isnull=True,
+                        edit_token__isnull=True
                     )
-                },
-                name='chk_verified_fields'
+                ),
+                name='chk_event_verified_fields'
             ),
             # Ensures virtual events have specific location fields set to NULL
             models.CheckConstraint(
                 check=(
-                    (
-                        models.Q(event_format__exact='in-person') &
-                        models.Q(location_address__isnull=False) &
-                        models.Q(location_city__isnull=False) &
-                        models.Q(location_state__isnull=False) &
-                        models.Q(location_country__isnull=False) &
-                        models.Q(location_zip__isnull=False)
+                    models.Q(
+                        event_format__exact='in-person',
+                        location_address__isnull=False,
+                        location_city__isnull=False,
+                        location_state__isnull=False,
+                        location_country__isnull=False,
+                        location_zip__isnull=False
                     ) |
-                    (
-                        models.Q(event_format__exact='virtual') &
-                        models.Q(location_name__isnull=True) &
-                        models.Q(location_address__isnull=True) &
-                        models.Q(location_city__isnull=True) &
-                        models.Q(location_state__isnull=True) &
-                        models.Q(location_country__isnull=True) &
-                        models.Q(location_zip__isnull=True)
+                    models.Q(
+                        event_format__exact='virtual',
+                        location_name__isnull=True,
+                        location_address__isnull=True,
+                        location_city__isnull=True,
+                        location_state__isnull=True,
+                        location_country__isnull=True,
+                        location_zip__isnull=True
                     )
                 ),
                 name='chk_virtual_location'
@@ -138,7 +138,7 @@ class EventRsvp(models.Model):
                     models.Q(verified=True, edit_token__isnull=False) |
                     models.Q(verified=False, edit_token__isnull=True)
                 ),
-                name='chk_verified_fields'
+                name='chk_event_rsvp_verified_fields'
             )
         ]
 
