@@ -45,3 +45,6 @@ docker-compose.override.yml
 *.log
 log/
 logs/
+
+# PostgreSQL data directory
+postgres_data/
