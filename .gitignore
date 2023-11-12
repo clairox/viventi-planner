@@ -48,3 +48,6 @@ logs/
 
 # PostgreSQL data directory
 postgres_data/
+
+# Config
+*.conf
