@@ -33,6 +33,7 @@ build/
 
 # Docker
 .docker/
+.dockerignore
 
 # Frontend build
 frontend/build/
