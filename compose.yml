@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+  api:
+    build:
+      context: ./backend
+    ports:
+      - '8000:8000'
+  web:
+    build:
+      context: ./frontend
+    ports:
+      - '5173:5173'
+    depends_on:
+      - api
