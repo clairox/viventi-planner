@@ -1,9 +1,11 @@
+import secrets
 from django.db.utils import IntegrityError
+from django.utils import timezone
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from backend.models import Event
+from backend.models import Event, VerificationToken
 from backend.serializers import EventSerializer
+from datetime import datetime
 
 
 class EventAPIView(APIView):
@@ -12,6 +14,14 @@ class EventAPIView(APIView):
             serializer = EventSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
+
+                token = secrets.token_urlsafe(64)
+                VerificationToken.objects.create(
+                    token_value=token,
+                    token_type='event',
+                    associated_event_id=serializer.data['event_id'],
+                    expiry_datetime=timezone.now() + timezone.timedelta(minutes=1)
+                )
                 return JsonResponse(serializer.data, status=201)
             return JsonResponse({'error': serializer.errors}, status=400)
         except IntegrityError:
