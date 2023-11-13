@@ -9,20 +9,13 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
-    def to_internal_value(self, data):
-        date_str = data.get('date')
-        time_str = data.get('time')
-
-        if date_str is not None and time_str is not None:
-            date = datetime.strptime(date_str, "%Y-%m-%d").date()
-            time = datetime.strptime(time_str, "%H:%M:%S").time()
-            data['event_datetime'] = timezone.make_aware(
-                datetime.combine(date, time)
-            )
-
-        return super().to_internal_value(data)
-
     def create(self, validated_data):
+        date = validated_data.get('date')
+        time = validated_data.get('time')
+
+        validated_data['event_datetime'] = timezone.make_aware(
+            datetime.combine(date, time)
+        )
         validated_data['status'] = 'inactive'
         validated_data['verified'] = False
 

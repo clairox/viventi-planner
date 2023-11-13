@@ -5,6 +5,15 @@ from datetime import datetime
 
 
 class Event(models.Model):
+    EVENT_FORMAT_CHOICES = [('virtual', 'Virtual'), ('in-person', 'In person')]
+
+    STATUS_CHOICES = [
+        ('inactive', 'Inactive'),
+        ('verified', 'Verified'),
+        ('canceled', 'Canceled'),
+        ('completed', 'Completed')
+    ]
+
     event_id = models.BigAutoField(primary_key=True)
     event_slug = models.CharField(max_length=64, unique=True, null=True)
     event_name = models.CharField(max_length=50)
@@ -12,7 +21,7 @@ class Event(models.Model):
     edit_token = models.CharField(max_length=128, unique=True, null=True)
     date = models.DateField()  # Date of the event
     time = models.TimeField()  # Time of the event
-    event_datetime = models.DateTimeField()
+    event_datetime = models.DateTimeField(blank=True)
     location_name = models.CharField(max_length=100, null=True, blank=True)
     location_address = models.CharField(max_length=255, null=True, blank=True)
     location_city = models.CharField(max_length=100, null=True, blank=True)
@@ -22,14 +31,16 @@ class Event(models.Model):
     organizer_name = models.CharField(max_length=100)
     organizer_email = models.EmailField()
     event_max_capacity = models.IntegerField(validators=[MinValueValidator(0)])
-    EVENT_FORMAT_CHOICES = [('virtual', 'Virtual'), ('in-person', 'In person')]
     event_format = models.CharField(
-        max_length=20, choices=EVENT_FORMAT_CHOICES)
+        max_length=20,
+        choices=EVENT_FORMAT_CHOICES
+    )
     description = models.TextField()  # Description for the event
-    STATUS_CHOICES = [('inactive', 'Inactive'), ('verified', 'Verified'),
-                      ('canceled', 'Canceled'), ('completed', 'Completed')]
     status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default='inactive')
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='inactive'
+    )
     # Indicates if the event is verified
     verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
