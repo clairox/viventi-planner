@@ -4,9 +4,9 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_DB: ${TEST_DB_NAME}
-      POSTGRES_USER: ${TEST_DB_USER}
-      POSTGRES_PASSWORD: ${TEST_DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME_TEST}
+      POSTGRES_USER: ${DB_USER_TEST}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_TEST}
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
   api:
