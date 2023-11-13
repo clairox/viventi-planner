@@ -51,3 +51,5 @@ postgres_data/
 
 # Config
 *.conf
+
+.pytest_cache
