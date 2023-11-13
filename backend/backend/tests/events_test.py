@@ -23,7 +23,7 @@ def test_create_in_person_event_with_valid_data(client: Client):
         'description': 'This is a test description.'
     }
 
-    response = client.post(reverse("create_event"), data)
+    response = client.post(reverse("event"), data)
     assert response.status_code == 201
 
     created_event = Event.objects.latest('event_id')
@@ -43,7 +43,7 @@ def test_create_virtual_event_with_valid_data(client: Client):
         'description': 'This is a test description.'
     }
 
-    response = client.post(reverse("create_event"), data)
+    response = client.post(reverse("event"), data)
 
     assert response.status_code == 201
 
@@ -70,7 +70,7 @@ def test_create_event_with_invalid_data(client: Client):
         'description': 'This is a test description.'
     }
 
-    response = client.post(reverse("create_event"), data)
+    response = client.post(reverse("event"), data)
 
     assert response.status_code == 400
     assert 'event_name' in response.json().get('error')
@@ -91,7 +91,7 @@ def test_create_event_with_verified_fields(client: Client):
         'edit_token': 'test-edit-token'
     }
 
-    response = client.post(reverse("create_event"), data)
+    response = client.post(reverse("event"), data)
     assert response.status_code == 400
     assert response.json().get('error') == 'IntegrityError'
 
@@ -110,7 +110,7 @@ def test_create_in_person_event_without_location_data(client: Client):
         'description': 'This is a test description.'
     }
 
-    response = client.post(reverse("create_event"), data)
+    response = client.post(reverse("event"), data)
 
     assert response.status_code == 400
     assert response.json().get('error') == 'IntegrityError'
@@ -136,7 +136,7 @@ def test_create_virtual_event_with_location_data(client: Client):
         'description': 'This is a test description.'
     }
 
-    response = client.post(reverse("create_event"), data)
+    response = client.post(reverse("event"), data)
 
     assert response.status_code == 400
     assert response.json().get('error') == 'IntegrityError'
