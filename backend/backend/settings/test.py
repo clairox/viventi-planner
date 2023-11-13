@@ -3,9 +3,9 @@ from .base import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('TEST_DB_NAME'),
-        'USER': config('TEST_DB_USER'),
-        'PASSWORD': config('TEST_DB_PASSWORD'),
+        'NAME': config('DB_NAME_TEST'),
+        'USER': config('DB_USER_TEST'),
+        'PASSWORD': config('DB_PASSWORD_TEST'),
         'HOST': 'db',
         'PORT': '5432'
     }
