@@ -20,9 +20,3 @@ class EventSerializer(serializers.ModelSerializer):
         validated_data['verified'] = False
 
         return Event.objects.create(**validated_data)
-
-    # TODO can't update any values besides status
-    def update(self, instance, validated_data):
-        instance.status = validated_data.get('status', instance.status)
-        instance.save()
-        return instance
