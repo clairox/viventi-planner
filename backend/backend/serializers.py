@@ -9,6 +9,12 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data.pop('event_slug')
+        data.pop('edit_token')
+        return data
+
     def create(self, validated_data):
         date = validated_data.get('date')
         time = validated_data.get('time')
