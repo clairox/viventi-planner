@@ -1,13 +1,13 @@
 from django.db.utils import IntegrityError
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
 from .models import Event
 from .serializers import EventSerializer
 
 
-@api_view(['POST'])
-def create_event(request):
-    if request.method == 'POST':
+class EventAPIView(APIView):
+    def post(self, request):
         try:
             serializer = EventSerializer(data=request.data)
             if serializer.is_valid():
@@ -17,15 +17,9 @@ def create_event(request):
         except IntegrityError:
             return JsonResponse({'error': 'IntegrityError'}, status=400)
 
+    def patch(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
 
-@api_view(['PATCH'])
-def update_event(request, pk):
-    try:
-        event = Event.objects.get(pk=pk)
-    except Event.DoesNotExist:
-        return JsonResponse({'error': 'Event not found'}, status=404)
-
-    if request.method == 'PATCH':
         try:
             serializer = EventSerializer(
                 event, data=request.data, partial=True

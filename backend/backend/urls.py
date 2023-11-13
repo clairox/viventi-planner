@@ -15,9 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import *
+from .views import EventAPIView
 
 urlpatterns = [
-    path('event/', create_event, name='create_event'),
-    path('event/<int:pk>', update_event, name='update_event'),
+    path('event/', EventAPIView.as_view(), name='event'),
+    path('event/<int:pk>/', EventAPIView.as_view(), name='event_by_id'),
 ]
