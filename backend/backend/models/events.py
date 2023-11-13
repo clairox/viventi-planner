@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils import timezone
+from datetime import datetime
 
 
 class Event(models.Model):
@@ -27,7 +28,8 @@ class Event(models.Model):
     description = models.TextField()  # Description for the event
     STATUS_CHOICES = [('inactive', 'Inactive'), ('verified', 'Verified'),
                       ('canceled', 'Canceled'), ('completed', 'Completed')]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='inactive')
     # Indicates if the event is verified
     verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
