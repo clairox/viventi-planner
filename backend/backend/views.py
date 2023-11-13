@@ -12,10 +12,10 @@ def create_event(request):
             serializer = EventSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return JsonResponse(serializer.data, status=200)
-            return JsonResponse(serializer.errors, status=400)
-        except IntegrityError as err:
-            return JsonResponse({'error': str(err)}, status=400)
+                return JsonResponse(serializer.data, status=201)
+            return JsonResponse({'error': serializer.errors}, status=400)
+        except IntegrityError:
+            return JsonResponse({'error': 'IntegrityError'}, status=400)
 
 
 @api_view(['PATCH'])
