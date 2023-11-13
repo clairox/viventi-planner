@@ -3,9 +3,10 @@ from django.utils import timezone
 
 
 class VerificationToken(models.Model):
-    token_id = models.BigAutoField(primary_key=True)
-    token_value = models.CharField(max_length=128)
     TOKEN_TYPE_CHOICES = [{'event', 'Event'}, ('rsvp', 'RSVP')]
+
+    token_id = models.BigAutoField(primary_key=True)
+    token_value = models.CharField(max_length=128, unique=True)
     token_type = models.CharField(max_length=20, choices=TOKEN_TYPE_CHOICES)
     associated_event_id = models.BigIntegerField(null=True)
     associated_rsvp_id = models.BigIntegerField(null=True)
