@@ -11,7 +11,8 @@ class Command(BaseCommand):
         events_to_delete = Event.objects.filter(
             status='inactive', created_at__lte=cutoff_time
         )
+        delete_count = len(events_to_delete)
         events_to_delete.delete()
         self.stdout.write(self.style.SUCCESS(
-            f'Deleted {len(events_to_delete)} unverified events'
+            f'Deleted {delete_count} unverified events'
         ))
