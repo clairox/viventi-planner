@@ -43,16 +43,6 @@ class EventAPIView(APIView):
         except:
             return JsonResponse({'error': 'Something went wrong'}, status=500)
 
-    def get_by_slug(self, request, slug):
-        try:
-            event = Event.objects.get(event_slug=slug)
-            serializer = EventSerializer(event)
-            return JsonResponse(serializer.data, status=200)
-        except Event.DoesNotExist:
-            return JsonResponse({'error': 'Event not found'}, status=404)
-        except:
-            return JsonResponse({'error': 'Something went wrong'}, status=500)
-
     def patch(self, request, pk):
         try:
             event = Event.objects.get(pk=pk)
