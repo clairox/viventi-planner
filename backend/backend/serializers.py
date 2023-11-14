@@ -7,12 +7,11 @@ from django.utils import timezone
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'
+        exclude = ['event_slug', 'edit_token']
+        read_only_fields = ['verified']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data.pop('event_slug')
-        data.pop('edit_token')
         return data
 
     def create(self, validated_data):
@@ -23,6 +22,5 @@ class EventSerializer(serializers.ModelSerializer):
             datetime.combine(date, time)
         )
         validated_data['status'] = 'inactive'
-        validated_data['verified'] = False
 
         return Event.objects.create(**validated_data)
