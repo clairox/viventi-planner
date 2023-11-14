@@ -6,7 +6,6 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from backend.models import Event, VerificationToken
 from backend.serializers import EventSerializer
-from datetime import datetime
 
 
 class EventAPIView(APIView):
