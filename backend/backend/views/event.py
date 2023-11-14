@@ -2,6 +2,7 @@ import secrets
 from django.db.utils import IntegrityError
 from django.utils import timezone
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from backend.models import Event, VerificationToken
 from backend.serializers import EventSerializer
@@ -29,9 +30,23 @@ class EventAPIView(APIView):
         except:
             return JsonResponse({'error': 'Something went wrong'}, status=500)
 
-    def get(self, request, pk):
+    def get(self, request, identifier):
+        if identifier.isdigit():
+            event = get_object_or_404(Event, pk=identifier)
+        else:
+            event = get_object_or_404(Event, event_slug=identifier)
+
         try:
-            event = Event.objects.get(pk=pk)
+            serializer = EventSerializer(event)
+            return JsonResponse(serializer.data, status=200)
+        except Event.DoesNotExist:
+            return JsonResponse({'error': 'Event not found'}, status=404)
+        except:
+            return JsonResponse({'error': 'Something went wrong'}, status=500)
+
+    def get_by_slug(self, request, slug):
+        try:
+            event = Event.objects.get(event_slug=slug)
             serializer = EventSerializer(event)
             return JsonResponse(serializer.data, status=200)
         except Event.DoesNotExist:
