@@ -21,7 +21,7 @@ class EventAPIView(APIView):
                     token_value=token,
                     token_type='event',
                     associated_event_id=serializer.data['event_id'],
-                    expiry_datetime=timezone.now() + timezone.timedelta(minutes=1)
+                    expiry_datetime=timezone.now() + timezone.timedelta(days=7)
                 )
                 return JsonResponse(serializer.data, status=201)
             return JsonResponse({'error': serializer.errors}, status=400)
