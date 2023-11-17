@@ -10,10 +10,6 @@ class EventSerializer(serializers.ModelSerializer):
         exclude = ['event_slug', 'edit_token']
         read_only_fields = ['verified']
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        return data
-
     def create(self, validated_data):
         date = validated_data.get('date')
         time = validated_data.get('time')
