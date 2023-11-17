@@ -1,7 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from backend.models import Host
+from rest_framework.permissions import IsAuthenticated
+from backend.models import Host, Event
 from backend.serializers import HostSerializer
 
 
@@ -28,7 +29,15 @@ class HostAPIView(APIView):
             return JsonResponse({'error': 'Something went wrong'}, status=500)
 
     def patch(self, request, pk):
+        self.permission_classes = [IsAuthenticated]
+        authorization_token = request.headers.get('Authorization')
+        if not authorization_token:
+            return JsonResponse({'error': 'Unauthorized'}, status=401)
+
         host = get_object_or_404(Host, pk=pk)
+
+        if authorization_token != host.event_id.edit_token:
+            return JsonResponse({'error': 'Authorization token mismatch'}, status=401)
 
         try:
             serializer = HostSerializer(host, data=request.data, partial=True)
@@ -40,7 +49,16 @@ class HostAPIView(APIView):
             return JsonResponse({'error': 'Something went wrong'}, status=500)
 
     def delete(self, request, pk):
+        self.permission_classes = [IsAuthenticated]
+        authorization_token = request.headers.get('Authorization')
+        if not authorization_token:
+            return JsonResponse({'error': 'Unauthorized'}, status=401)
+
         host = get_object_or_404(Host, pk=pk)
+
+        # TODO change host.event_id to host.event
+        if authorization_token != host.event_id.edit_token:
+            return JsonResponse({'error': 'Authorization token mismatch'}, status=401)
 
         try:
             host.delete()
