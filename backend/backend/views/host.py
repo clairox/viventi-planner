@@ -36,7 +36,7 @@ class HostAPIView(APIView):
 
         host = get_object_or_404(Host, pk=pk)
 
-        if authorization_token != host.event_id.edit_token:
+        if authorization_token != host.event.edit_token:
             return JsonResponse({'error': 'Authorization token mismatch'}, status=401)
 
         try:
@@ -57,7 +57,7 @@ class HostAPIView(APIView):
         host = get_object_or_404(Host, pk=pk)
 
         # TODO change host.event_id to host.event
-        if authorization_token != host.event_id.edit_token:
+        if authorization_token != host.event.edit_token:
             return JsonResponse({'error': 'Authorization token mismatch'}, status=401)
 
         try:

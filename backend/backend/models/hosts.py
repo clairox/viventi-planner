@@ -8,7 +8,7 @@ class Host(models.Model):
     # Name of the person hosting event
     host_name = models.CharField(max_length=100)
     # References the event that host is associated with
-    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(default=timezone.now)
 

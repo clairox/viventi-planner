@@ -6,7 +6,7 @@ from django.utils import timezone
 class EventRsvp(models.Model):
     rsvp_id = models.BigAutoField(primary_key=True)
     # References the event that RSVP is associated with
-    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     # Token providing admin privileges for updating RSVP
     edit_token = models.CharField(max_length=128, unique=True, null=True)
     attendee_name = models.CharField(max_length=100)
@@ -27,7 +27,7 @@ class EventRsvp(models.Model):
         constraints = [
             # Ensure 'attendee_email' is unique per the event it's associated with
             models.UniqueConstraint(
-                fields=['event_id', 'attendee_email'],
+                fields=['event', 'attendee_email'],
                 name='unique_event_rsvp'
             ),
             # Ensure 'edit_token' contains a value when and only when event is verified
