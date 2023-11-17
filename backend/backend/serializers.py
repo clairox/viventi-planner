@@ -42,5 +42,26 @@ class HostSerializer(serializers.ModelSerializer):
 class EventRsvpSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventRsvp
-        exclude = ['attendee_email']
+        exclude = ['edit_token', 'attendee_email']
         read_only_fields = ['created_at', 'modified_at']
+
+    def update(self, instance, validated_data):
+        instance.attendee_name = validated_data.get(
+            'attendee_name',
+            instance.attendee_name
+        )
+        instance.attendee_email = validated_data.get(
+            'attendee_email',
+            instance.attendee_email
+        )
+        instance.rsvp_status = validated_data.get(
+            'rsvp_status',
+            instance.rsvp_status
+        )
+        instance.blocked = validated_data.get(
+            'blocked',
+            instance.blocked
+        )
+
+        instance.save()
+        return instance

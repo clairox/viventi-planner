@@ -2,7 +2,7 @@ import secrets
 from django.http import JsonResponse
 from django.utils import timezone
 from rest_framework.decorators import api_view
-from backend.models import VerificationToken, Event
+from backend.models import VerificationToken, Event, EventRsvp
 
 
 @api_view(['POST'])
@@ -28,6 +28,29 @@ def verify_event(request, token):
             return JsonResponse({'message': 'Verification token expired'}, status=200)
     except VerificationToken.DoesNotExist:
         return JsonResponse({'error': 'Event not found'}, status=404)
-    except Exception as err:
-        print(err)
+    except:
+        return JsonResponse({'error': 'Something went wrong'}, status=500)
+
+
+@api_view(['POST'])
+def verify_rsvp(request, token):
+    try:
+        token = VerificationToken.objects.get(token_value=token)
+        if token.expiry_datetime >= timezone.now():
+            edit_token = secrets.token_hex(32)
+
+            rsvp = EventRsvp.objects.get(rsvp_id=token.associated_rsvp_id)
+            if rsvp.verified:
+                return JsonResponse({'message': 'Event RSVP already verified'}, status=200)
+
+            rsvp.verified = True
+            rsvp.edit_token = edit_token
+            rsvp.save()
+
+            return JsonResponse({'message': 'Event RSVP verified successfully'}, status=200)
+        else:
+            return JsonResponse({'message': 'Verification token expired'}, status=200)
+    except VerificationToken.DoesNotExist:
+        return JsonResponse({'error': 'Event RSVP not found'}, status=404)
+    except:
         return JsonResponse({'error': 'Something went wrong'}, status=500)
