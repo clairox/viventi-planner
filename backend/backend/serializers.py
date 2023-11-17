@@ -4,11 +4,12 @@ from datetime import datetime
 from django.utils import timezone
 
 
+# TODO updated modified_at on every update
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         exclude = ['event_slug', 'edit_token']
-        read_only_fields = ['verified']
+        read_only_fields = ['verified', 'created_at', 'modified_at']
 
     def create(self, validated_data):
         date = validated_data.get('date')
@@ -26,9 +27,20 @@ class HostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Host
         fields = '__all__'
+        read_only_fields = ['created_at', 'modified_at']
+
+    def update(self, instance, validated_data):
+        instance.host_name = validated_data.get(
+            'host_name',
+            instance.host_name
+        )
+
+        instance.save()
+        return instance
 
 
 class EventRsvpSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventRsvp
         exclude = ['attendee_email']
+        read_only_fields = ['created_at', 'modified_at']
