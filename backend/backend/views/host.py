@@ -63,7 +63,5 @@ class HostAPIView(APIView):
         try:
             host.delete()
             return JsonResponse({}, status=204)
-        except Host.DoesNotExist:
-            return JsonResponse({'error': 'Host not found'}, status=404)
         except:
             return JsonResponse({'error': 'Something went wrong'}, status=500)
