@@ -1,12 +1,32 @@
 import secrets
 from django.db.utils import IntegrityError
 from django.utils import timezone
+from django.utils.html import strip_tags
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from backend.models import Event, VerificationToken
 from backend.serializers import EventSerializer
+from decouple import config
+
+
+def send_verification_email(token, recipient):
+    subject = 'Verify your email'
+    message = render_to_string('email/verification_email.html', {
+        'token': token
+    })
+    plain_message = strip_tags(message)
+    from_email = config('FROM_EMAIL')
+
+    send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [recipient],
+        html_message=message)
 
 
 class EventAPIView(APIView):
@@ -17,12 +37,18 @@ class EventAPIView(APIView):
                 serializer.save()
 
                 token = secrets.token_urlsafe(64)
-                VerificationToken.objects.create(
+                verification_token = VerificationToken.objects.create(
                     token_value=token,
                     token_type='event',
                     associated_event_id=serializer.data['event_id'],
                     expiry_datetime=timezone.now() + timezone.timedelta(days=7)
                 )
+
+                send_verification_email(
+                    verification_token.token_value,
+                    serializer.data['organizer_email']
+                )
+
                 return JsonResponse(serializer.data, status=201)
             return JsonResponse({'error': serializer.errors}, status=400)
         except IntegrityError:

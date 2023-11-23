@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Email Verification</title>
+	</head>
+	<body>
+		<p>Dear Organizer,</p>
+		<p>Thank you for creating an event! To complete the verification process, please click the following link:</p>
+		<a href="{% url 'verify_event' token=token %}">Verify Email</a>
+		<p>This link will expire in 7 days.</p>
+		<p>If you did not create this event or have any concerns, please ignore this email.</p>
+		<p>Thank you!</p>
+	</body>
+</html>
