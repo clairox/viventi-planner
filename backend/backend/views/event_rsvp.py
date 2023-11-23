@@ -45,7 +45,6 @@ class EventRsvpAPIView(APIView):
             return JsonResponse({'error': 'Something went wrong'}, status=500)
 
     def patch(self, request, pk):
-        # TODO allow only event organizer to edit rsvp.blocked
         self.permission_classes = [IsAuthenticated]
 
         authorization_token = request.headers.get('Authorization')
