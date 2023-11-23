@@ -5,8 +5,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from backend.models import EventRsvp, VerificationToken
-from backend.serializers import EventRsvpSerializer
+from backend.models import EventRsvp, VerificationToken, Event
+from backend.serializers import EventRsvpSerializer, EventRsvpWithAttendeeAuthSerializer, EventRsvpWithOrganizerAuthSerializer
 
 
 class EventRsvpAPIView(APIView):
@@ -53,14 +53,20 @@ class EventRsvpAPIView(APIView):
             return JsonResponse({'error': 'Unauthorized'}, status=401)
 
         rsvp = get_object_or_404(EventRsvp, pk=pk)
+        event = get_object_or_404(Event, pk=rsvp.event_id)
 
-        if authorization_token != rsvp.edit_token:
+        if authorization_token != rsvp.edit_token and authorization_token != event.edit_token:
             return JsonResponse({'error': 'Authorization token mismatch'}, status=401)
 
         try:
-            serializer = EventRsvpSerializer(
-                rsvp, data=request.data, partial=True
-            )
+            if authorization_token == rsvp.edit_token:
+                serializer = EventRsvpWithAttendeeAuthSerializer(
+                    rsvp, data=request.data, partial=True
+                )
+            else:
+                serializer = EventRsvpWithOrganizerAuthSerializer(
+                    rsvp, data=request.data, partial=True
+                )
             if serializer.is_valid():
                 serializer.save()
                 return JsonResponse(serializer.data, status=200)

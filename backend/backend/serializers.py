@@ -43,13 +43,18 @@ class EventRsvpSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventRsvp
         exclude = ['edit_token']
-        read_only_fields = ['created_at', 'modified_at']
 
     def to_representation(self, instance):
-        # TODO 'attendee_email' visible if authorized
         representation = super().to_representation(instance)
         representation.pop('attendee_email')
         return representation
+
+
+class EventRsvpWithAttendeeAuthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventRsvp
+        exclude = ['edit_token']
+        read_only_fields = ['verified', 'blocked', 'created_at', 'modified_at']
 
     def update(self, instance, validated_data):
         instance.attendee_name = validated_data.get(
@@ -64,6 +69,25 @@ class EventRsvpSerializer(serializers.ModelSerializer):
             'rsvp_status',
             instance.rsvp_status
         )
+
+        instance.save()
+        return instance
+
+
+class EventRsvpWithOrganizerAuthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventRsvp
+        exclude = ['edit_token']
+        read_only_fields = [
+            'attendee_name',
+            'attendee_email',
+            'rsvp_status',
+            'verified',
+            'created_at',
+            'modified_at'
+        ]
+
+    def update(self, instance, validated_data):
         instance.blocked = validated_data.get(
             'blocked',
             instance.blocked
