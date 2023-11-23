@@ -4,7 +4,6 @@ from datetime import datetime
 from django.utils import timezone
 
 
-# TODO updated modified_at on every update
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
@@ -22,6 +21,10 @@ class EventSerializer(serializers.ModelSerializer):
 
         return Event.objects.create(**validated_data)
 
+    def update(self, instance, validated_data):
+        instance.modified_at = timezone.now()
+        return super().update(instance, validated_data)
+
 
 class HostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,10 +38,13 @@ class HostSerializer(serializers.ModelSerializer):
             instance.host_name
         )
 
+        instance.modified_at = timezone.now()
+
         instance.save()
         return instance
 
 
+# Only used when not editing
 class EventRsvpSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventRsvp
@@ -50,6 +56,7 @@ class EventRsvpSerializer(serializers.ModelSerializer):
         return representation
 
 
+# Used when editing as RSVP attendee
 class EventRsvpWithAttendeeAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventRsvp
@@ -70,10 +77,13 @@ class EventRsvpWithAttendeeAuthSerializer(serializers.ModelSerializer):
             instance.rsvp_status
         )
 
+        instance.modified_at = timezone.now()
+
         instance.save()
         return instance
 
 
+# Used when editing as event organizer
 class EventRsvpWithOrganizerAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventRsvp
@@ -92,6 +102,8 @@ class EventRsvpWithOrganizerAuthSerializer(serializers.ModelSerializer):
             'blocked',
             instance.blocked
         )
+
+        instance.modified_at = timezone.now()
 
         instance.save()
         return instance
