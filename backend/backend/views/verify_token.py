@@ -52,7 +52,12 @@ def verify_rsvp(request, token):
             rsvp.edit_token = edit_token
             rsvp.save()
 
-            return JsonResponse({'message': 'Event RSVP verified successfully'}, status=200)
+            data = {
+                "rsvp_id": rsvp.rsvp_id,
+                "edit_token": rsvp.edit_token
+            }
+
+            return JsonResponse(data, status=200)
         else:
             return JsonResponse({'message': 'Verification token expired'}, status=200)
     except VerificationToken.DoesNotExist:
