@@ -10,7 +10,9 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from backend.models import Event, VerificationToken
 from backend.serializers import EventSerializer
-from decouple import config
+from backend.config import useConfig
+
+config = useConfig('local')
 
 
 def send_verification_email(token, recipient):
@@ -53,8 +55,8 @@ class EventAPIView(APIView):
             return JsonResponse({'error': serializer.errors}, status=400)
         except IntegrityError:
             return JsonResponse({'error': 'IntegrityError'}, status=400)
-        except:
-            return JsonResponse({'error': 'Something went wrong'}, status=500)
+        except Exception as e:
+            return JsonResponse({'error': e}, status=500)
 
     def get(self, request, identifier):
         if identifier.isdigit():
