@@ -43,7 +43,7 @@ class EventAPIView(APIView):
                     token_value=token,
                     token_type='event',
                     associated_event_id=serializer.data['event_id'],
-                    expiry_datetime=timezone.now() + timezone.timedelta(days=7)
+                    expiry_datetime=timezone.now() + timezone.timedelta(hours=24)
                 )
 
                 send_verification_email(
@@ -55,8 +55,8 @@ class EventAPIView(APIView):
             return JsonResponse({'error': serializer.errors}, status=400)
         except IntegrityError:
             return JsonResponse({'error': 'IntegrityError'}, status=400)
-        except Exception as e:
-            return JsonResponse({'error': e}, status=500)
+        except:
+            return JsonResponse({'error': 'Something went wrong'}, status=500)
 
     def get(self, request, identifier):
         if identifier.isdigit():
