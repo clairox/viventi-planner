@@ -2,6 +2,12 @@ from .base import *
 
 config = useConfig('local')
 
+# CORS
+
+CORS_ORIGIN_WHITELIST = [
+    config('CLIENT_URL')
+]
+
 # Database
 
 DATABASES = {
