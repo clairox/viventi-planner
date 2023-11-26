@@ -1,0 +1,51 @@
+@use './colors' as *;
+
+.verified-section {
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+}
+
+.verified-details {
+	margin-top: 100px;
+	padding: 20px 40px;
+	width: 800px;
+	border-radius: 10px;
+	background: $smoky-pearl;
+}
+
+.verified-heading {
+	font-size: 1.9rem;
+}
+
+.links-heading {
+	font-weight: 700;
+	margin-bottom: 0;
+}
+
+.links-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	margin-bottom: 40px;
+}
+
+.link-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.link {
+	padding: 0px 15px;
+	height: 35px;
+	width: 400px;
+	border: solid 1px $light-gray;
+	border-radius: 5px;
+	outline-color: $vibrant-coral;
+	box-sizing: border-box;
+	text-align: center;
+	background: white;
+}

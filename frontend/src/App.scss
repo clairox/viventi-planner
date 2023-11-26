@@ -1,0 +1,54 @@
+@use 'styles/colors' as *;
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Outfit:wght@400;500;600;700&family=Sansita+Swashed:wght@600&display=swap');
+
+body {
+	box-sizing: border-box;
+	margin: 0;
+	height: 100vh;
+	font-family: Lato, Arial, Helvetica, sans-serif;
+	color: $dark-gray;
+	background: $smoky-pearl;
+}
+
+#root {
+	height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	font-family: Outfit, Arial, Helvetica, sans-serif;
+	font-weight: 600;
+	color: $dark-gray;
+}
+
+h1 {
+	font-size: 3.9rem;
+}
+
+h2 {
+	font-size: 3.4rem;
+}
+h3 {
+	font-size: 2.9rem;
+}
+h4 {
+	font-size: 2.4rem;
+}
+h5 {
+	font-size: 1.9rem;
+}
+h6 {
+	font-size: 1.4rem;
+}
+
+.container {
+	height: 100%;
+	&.special {
+		background: $vibrant-coral;
+	}
+}

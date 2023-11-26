@@ -1,10 +1,10 @@
-import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { MainLayout } from './layouts/MainLayout';
 import { SpecialLayout } from './layouts/SpecialLayout';
 import { HomePage } from './pages/HomePage';
 import { VerificationRedirect } from './components/VerificationRedirect';
 import { LinksPage } from './pages/LinksPage';
+import './App.scss';
 
 function App() {
 	return (
@@ -15,6 +15,7 @@ function App() {
 			</Route>
 			<Route element={<SpecialLayout />}>
 				<Route path="/event/:eventSlug/links" element={<LinksPage />} />
+				<Route path="/error" element={<LinksPage />} />
 			</Route>
 		</Routes>
 	);
