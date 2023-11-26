@@ -1,3 +1,12 @@
+import { Helmet } from 'react-helmet';
+
 export const HomePage = () => {
-	return <></>;
+	return (
+		<>
+			<Helmet>
+				<title>Viventi</title>
+				<meta name="description" content="Viventi home page." />
+			</Helmet>
+		</>
+	);
 };
