@@ -18,7 +18,7 @@ config = useConfig('local')
 def send_verification_email(token, recipient):
     subject = 'Verify your email'
     message = render_to_string('email/verification_email.html', {
-        'token': token
+        'url': f'{config('CLIENT_URL')}/event/activate/{token}/'
     })
     plain_message = strip_tags(message)
     from_email = config('FROM_EMAIL')
