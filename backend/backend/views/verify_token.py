@@ -15,7 +15,7 @@ def verify_event(request, token):
 
             event = Event.objects.get(event_id=token.associated_event_id)
             if event.verified:
-                return JsonResponse({'message': 'Event already verified'}, status=200)
+                return JsonResponse({'message': 'Event already verified'}, status=409)
 
             event.status = 'verified'
             event.verified = True
@@ -30,7 +30,7 @@ def verify_event(request, token):
 
             return JsonResponse(data, status=200)
         else:
-            return JsonResponse({'message': 'Verification token expired'}, status=200)
+            return JsonResponse({'message': 'Verification token expired'}, status=401)
     except VerificationToken.DoesNotExist:
         return JsonResponse({'error': 'Event not found'}, status=404)
     except:
