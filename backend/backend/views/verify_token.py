@@ -23,7 +23,12 @@ def verify_event(request, token):
             event.edit_token = edit_token
             event.save()
 
-            return JsonResponse({'message': 'Event verified successfully'}, status=200)
+            data = {
+                "event_slug": event.event_slug,
+                "edit_token": event.edit_token
+            }
+
+            return JsonResponse(data, status=200)
         else:
             return JsonResponse({'message': 'Verification token expired'}, status=200)
     except VerificationToken.DoesNotExist:
