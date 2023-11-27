@@ -22,6 +22,6 @@ test('link inputs contain valid links', () => {
 	const publicLinkInput = getByLabelText('Public shareable link:') as HTMLInputElement;
 	const privateLinkInput = getByLabelText('Private link for event management:') as HTMLInputElement;
 
-	expect(publicLinkInput.value).not.toContain('undefined');
-	expect(privateLinkInput.value).not.toContain('undefined');
+	expect(publicLinkInput.value).toBe('https://vvn.ti/event/mockSlug');
+	expect(privateLinkInput.value).toBe('https://vvn.ti/event/mockSlug?token=mockToken');
 });
