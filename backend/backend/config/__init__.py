@@ -3,8 +3,8 @@ from decouple import Config, RepositoryEnv
 
 def useConfig(config):
     configurations = {
-        'local': 'backend/.env.local',
-        'test': 'backend/.env.test'
+        'local': '.env.local',
+        'test': '.env.test'
     }
 
     if config not in configurations:
