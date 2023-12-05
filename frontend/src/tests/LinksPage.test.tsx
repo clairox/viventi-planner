@@ -10,7 +10,7 @@ jest.mock('react-router-dom', () => ({
 	useLocation: () => ({ state: { token: 'mockToken' } }),
 }));
 
-test('public link input contains valid link', () => {
+test('link inputs contain valid links', () => {
 	const routes = [{ path: '/event/:eventSlug/links', element: <LinksPage /> }];
 
 	const router = createMemoryRouter(routes, {
@@ -21,21 +21,8 @@ test('public link input contains valid link', () => {
 	const { getByLabelText } = render(<RouterProvider router={router} />);
 
 	const publicLinkInput = getByLabelText('Public shareable link:') as HTMLInputElement;
-
-	expect(publicLinkInput.value).toBe('https://vvn.ti/event/mockSlug');
-});
-
-test('private link input contains valid link', () => {
-	const routes = [{ path: '/event/:eventSlug/links', element: <LinksPage /> }];
-
-	const router = createMemoryRouter(routes, {
-		initialEntries: ['/event/mockSlug/links'],
-		initialIndex: 1,
-	});
-
-	const { getByLabelText } = render(<RouterProvider router={router} />);
-
 	const privateLinkInput = getByLabelText('Private link for event management:') as HTMLInputElement;
 
+	expect(publicLinkInput.value).toBe('https://vvn.ti/event/mockSlug');
 	expect(privateLinkInput.value).toBe('https://vvn.ti/event/mockSlug?token=mockToken');
 });
