@@ -5,7 +5,7 @@ export const EventPage = () => {
 		<>
 			<Helmet>
 				<title>Event</title>
-				<meta name="description" content="Form for event creation." />
+				<meta name="description" content="Details about event." />
 			</Helmet>
 			EventPage
 		</>
