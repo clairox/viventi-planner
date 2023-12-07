@@ -53,4 +53,7 @@ postgres_data/
 # Config
 *.conf
 
+# Prettier
+.prettierignore
+
 .pytest_cache
