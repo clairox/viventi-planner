@@ -7,7 +7,6 @@ export const EventPage = () => {
 				<title>Event</title>
 				<meta name="description" content="Details about event." />
 			</Helmet>
-			EventPage
 		</>
 	);
 };
