@@ -6,6 +6,8 @@ export const LinksPage = () => {
 	const { eventSlug } = useParams();
 	const { token } = useLocation().state;
 
+	// TODO add copy button to each link
+
 	return (
 		<section className="verified-section">
 			<Helmet>
