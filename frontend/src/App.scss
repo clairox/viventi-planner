@@ -1,12 +1,15 @@
 @use 'styles/colors' as *;
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Outfit:wght@400;500;600;700&family=Sansita+Swashed:wght@600&display=swap');
 
-body {
+* {
 	box-sizing: border-box;
+}
+
+body {
 	margin: 0;
 	height: 100vh;
 	font-family: Lato, Arial, Helvetica, sans-serif;
-	color: $dark-gray;
+	color: $midnight-gray;
 	background: $smoky-pearl;
 }
 
@@ -23,7 +26,7 @@ h6 {
 	margin: 0;
 	font-family: Outfit, Arial, Helvetica, sans-serif;
 	font-weight: 600;
-	color: $dark-gray;
+	color: $midnight-gray;
 }
 
 h1 {
@@ -51,4 +54,36 @@ h6 {
 	&.special {
 		background: $vibrant-coral;
 	}
+}
+
+.button {
+	height: 51px;
+	border: none;
+	border-radius: 5px;
+	background: $charcoal-gray;
+	color: $smoky-pearl;
+	font-family: Outfit, Arial, Helvetica, sans-serif;
+	font-size: 1.1rem;
+	font-weight: 400;
+	cursor: pointer;
+	&.submit {
+		background: $dusk-blue;
+	}
+}
+
+.event-form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 100px;
+	width: 100vw;
+	background: var(--smoky-pearl);
+	color: var(--dark-gray);
+}
+
+.event-form-success {
+	display: flex;
+	justify-content: center;
+	margin-top: 100px;
+	width: 100%;
 }

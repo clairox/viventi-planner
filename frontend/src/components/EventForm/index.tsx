@@ -8,7 +8,9 @@ import { Step2 } from './Step2';
 import { Step1 } from './Step1';
 import { createEvent } from '../../services/eventApi';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/Form.scss';
 
+// TODO add input icons
 export const EventForm = () => {
 	const formMethods = useForm<EventFormSchemaType>({
 		resolver: zodResolver(EventFormSchema),
@@ -75,8 +77,8 @@ export const EventForm = () => {
 	// TODO display form progress
 	return (
 		<FormProvider {...formMethods}>
-			<form onSubmit={formMethods.handleSubmit(onSubmit)}>
-				<h1>Step {currentStep} of 3</h1>
+			<form className="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+				<h1 className="step-heading">Step {currentStep} of 3</h1>
 				{renderFormStep()}
 			</form>
 		</FormProvider>
