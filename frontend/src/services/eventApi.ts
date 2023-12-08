@@ -41,8 +41,8 @@ export const createEvent = async (data: EventFormSchemaType) => {
 			event_max_capacity: data.maxCapacity,
 			description: data.description,
 		})
-		.then(res => console.log(res.data))
-		.catch(err => console.error(err));
+		.then(res => res.data)
+		.catch(err => console.log(err));
 };
 
 export default { createEvent };
