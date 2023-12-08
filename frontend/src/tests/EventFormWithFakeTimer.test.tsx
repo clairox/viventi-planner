@@ -1,9 +1,15 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { EventForm } from '../components/EventForm';
 import { StepChanger } from './utils/StepChanger';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { CreateEventPage } from '../pages/CreateEventPage';
 
 jest.mock('react-datepicker/dist/react-datepicker.css', () => ({}));
+
+const routes = [{ path: '/create', element: <CreateEventPage /> }];
+const router = createMemoryRouter(routes, {
+	initialEntries: ['/create'],
+});
 
 beforeAll(() => {
 	jest.useFakeTimers({ advanceTimers: true }).setSystemTime(new Date('2020-01-01'));
@@ -23,7 +29,7 @@ test.each([
 	{ step: 3, name: 'Description', labelText: 'Tell us a little about your event *', expected: '' },
 	{ step: 3, name: 'Event Capacity', labelText: 'Max number of attendees *', expected: '0' },
 ])("'$name' field has correct initial state", async ({ name, step, labelText, expected }) => {
-	const { getByLabelText, getByText } = render(<EventForm />);
+	const { getByLabelText, getByText } = render(<RouterProvider router={router} />);
 	const user = userEvent.setup();
 
 	const sc = new StepChanger(user, getByLabelText, getByText);

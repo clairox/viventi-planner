@@ -1,13 +1,19 @@
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { EventForm } from '../components/EventForm';
 import { StepChanger } from './utils/StepChanger';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { CreateEventPage } from '../pages/CreateEventPage';
 
 jest.mock('react-datepicker/dist/react-datepicker.css', () => ({}));
 
+const routes = [{ path: '/create', element: <CreateEventPage /> }];
+const router = createMemoryRouter(routes, {
+	initialEntries: ['/create'],
+});
+
 describe('next and back buttons work properly', () => {
 	test('next button advances to next step', async () => {
-		const { getByLabelText, getByText } = render(<EventForm />);
+		const { getByLabelText, getByText } = render(<RouterProvider router={router} />);
 		const user = userEvent.setup();
 		const sc = new StepChanger(user, getByLabelText, getByText);
 		await sc.step(3);
@@ -16,7 +22,7 @@ describe('next and back buttons work properly', () => {
 	});
 
 	test('back button returns to previous step', async () => {
-		const { getByLabelText, getByText } = render(<EventForm />);
+		const { getByLabelText, getByText } = render(<RouterProvider router={router} />);
 		const user = userEvent.setup();
 		const sc = new StepChanger(user, getByLabelText, getByText);
 		await sc.step(3);
@@ -29,13 +35,13 @@ describe('next and back buttons work properly', () => {
 	});
 
 	test('back button does not exist on first page', () => {
-		const { queryByText } = render(<EventForm />);
+		const { queryByText } = render(<RouterProvider router={router} />);
 
 		expect(queryByText('Back')).toBeNull();
 	});
 
 	test('next button does not exist on last page', async () => {
-		const { getByLabelText, getByText, queryByText } = render(<EventForm />);
+		const { getByLabelText, getByText, queryByText } = render(<RouterProvider router={router} />);
 		const user = userEvent.setup();
 		const sc = new StepChanger(user, getByLabelText, getByText);
 		await sc.step(3);
@@ -46,7 +52,7 @@ describe('next and back buttons work properly', () => {
 
 describe('location field only shown when format is in person', () => {
 	test('location input hidden when format is virtual', async () => {
-		const { getByLabelText, getByText, queryByLabelText } = render(<EventForm />);
+		const { getByLabelText, getByText, queryByLabelText } = render(<RouterProvider router={router} />);
 		const user = userEvent.setup();
 
 		const sc = new StepChanger(user, getByLabelText, getByText);
@@ -57,7 +63,7 @@ describe('location field only shown when format is in person', () => {
 	});
 
 	test('location input shows when format is in person', async () => {
-		const { getByLabelText, getByText, queryByLabelText } = render(<EventForm />);
+		const { getByLabelText, getByText, queryByLabelText } = render(<RouterProvider router={router} />);
 		const user = userEvent.setup();
 
 		const sc = new StepChanger(user, getByLabelText, getByText);
@@ -68,7 +74,7 @@ describe('location field only shown when format is in person', () => {
 	});
 
 	test('location is empty when format is virtual', async () => {
-		const { getByLabelText, getByText } = render(<EventForm />);
+		const { getByLabelText, getByText } = render(<RouterProvider router={router} />);
 		const user = userEvent.setup();
 
 		const sc = new StepChanger(user, getByLabelText, getByText);
@@ -102,7 +108,7 @@ describe('user input', () => {
 		},
 		{ step: 3, name: 'Event Capacity', labelText: 'Max number of attendees *', expected: '10' },
 	])("user can type into '$name' field", async ({ name, step, labelText, expected }) => {
-		const { getByLabelText, getByText } = render(<EventForm />);
+		const { getByLabelText, getByText } = render(<RouterProvider router={router} />);
 		const user = userEvent.setup();
 
 		const sc = new StepChanger(user, getByLabelText, getByText);
@@ -194,9 +200,9 @@ describe('user input', () => {
 			expectedError: 'Please specify a capacity of at least 1 person',
 		},
 	])(
-		"'$expectedError' displayed if '$value' in '$name' field",
+		"appropriate error displayed if invalid input in '$name' field",
 		async ({ name, step, labelText, value, expectedError }) => {
-			const { getByLabelText, getByText } = render(<EventForm />);
+			const { getByLabelText, getByText } = render(<RouterProvider router={router} />);
 			const user = userEvent.setup();
 
 			const sc = new StepChanger(user, getByLabelText, getByText);
