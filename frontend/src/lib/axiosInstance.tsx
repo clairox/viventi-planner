@@ -6,7 +6,7 @@ const axiosInstance = axios.create({ baseURL });
 axiosInstance.interceptors.response.use(
 	res => res,
 	err => {
-		console.log(err.response.status);
+		//console.log(err.response.status);
 		// if (err.response.status === 409) return err;
 
 		// switch (err.response.status) {
@@ -20,6 +20,7 @@ axiosInstance.interceptors.response.use(
 		// 		break;
 		// }
 		// return Promise.reject(err);
+		return Promise.reject(err);
 	}
 );
 
