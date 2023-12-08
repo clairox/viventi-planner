@@ -14,8 +14,7 @@ class EventSerializer(serializers.ModelSerializer):
             for key in exclude:
                 data.pop(key, None)
 
-            kwargs = {"data": data}
-
+        kwargs = {"data": data}
         super(EventSerializer, self).__init__(*args, **kwargs)
 
     class Meta:
