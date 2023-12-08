@@ -5,6 +5,19 @@ from django.utils import timezone
 
 
 class EventSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        # Remove location fields if event_format === virtual
+        data = kwargs.pop('data', None)
+        if data is not None and data['event_format'] == 'virtual':
+            exclude = ['location_name', 'location_address', 'location_city',
+                       'location_state', 'location_country', 'location_zip']
+            for key in exclude:
+                data.pop(key, None)
+
+            kwargs = {"data": data}
+
+        super(EventSerializer, self).__init__(*args, **kwargs)
+
     class Meta:
         model = Event
         exclude = ['event_slug', 'edit_token']
