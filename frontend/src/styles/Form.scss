@@ -1,0 +1,151 @@
+@use './colors' as *;
+
+input[type='text'],
+textarea {
+	border: dashed 1px $misty-gray;
+	border-radius: 5px;
+	outline-color: $vibrant-coral;
+	box-sizing: border-box;
+	&.invalid {
+		border-color: $cool-red;
+		outline-color: $cool-red;
+	}
+}
+
+input[type='text'] {
+	padding: 0px 15px;
+	height: 40px;
+	width: 100%;
+}
+
+textarea {
+	padding: 12px 15px;
+	height: 200px;
+	font-family: Arial;
+	resize: none;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	height: 100%;
+	width: 400px;
+	font-family: Lato, sans-serif;
+	font-weight: 700;
+}
+
+.step-heading {
+	width: 100%;
+	font-size: 1.9rem;
+	text-align: left;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.form-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	gap: 15px;
+	width: 100%;
+}
+
+.form-label {
+	margin-bottom: 6px;
+}
+
+.form-buttons {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+	width: 100%;
+	& button:only-child {
+		margin-left: auto;
+	}
+	& > button {
+		height: 50px;
+		width: 100px;
+	}
+}
+
+fieldset {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 15px;
+	padding: 0;
+	border: none;
+	& > legend {
+		margin-left: -3px;
+	}
+}
+
+.radio-button-wrapper {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 10px;
+	height: 52px;
+	width: 100%;
+	border: solid 1px $misty-gray;
+	border-radius: 5px;
+	&:hover {
+		border-color: $soft-peach-a;
+		outline: solid 2px $vibrant-coral;
+		background: $soft-peach-a;
+	}
+	& > label {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		bottom: 2px;
+		pointer-events: none;
+	}
+}
+
+input[type='radio'] {
+	appearance: none;
+	position: relative;
+	top: 2px;
+	margin: 0 17px;
+	width: 1.2em;
+	height: 1.2em;
+	border-radius: 50%;
+	background-clip: content-box;
+	border: 1px solid $misty-gray;
+	background-color: white;
+	&:checked {
+		padding: 2px;
+		border: 1px solid $vibrant-coral;
+
+		background-color: $vibrant-coral;
+	}
+}
+
+.error {
+	color: $cool-red;
+}
+
+.error-message {
+	margin-top: 3px;
+	font-weight: 400;
+}
+
+.form-inline {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 15px;
+	width: 100%;
+}
+
+.small {
+	flex-basis: 20%;
+}
