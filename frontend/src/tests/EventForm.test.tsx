@@ -4,6 +4,7 @@ import { StepChanger } from './utils/StepChanger';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { CreateEventPage } from '../pages/CreateEventPage';
 
+jest.mock('../styles/Form.scss', () => ({}));
 jest.mock('react-datepicker/dist/react-datepicker.css', () => ({}));
 
 const routes = [{ path: '/create', element: <CreateEventPage /> }];
