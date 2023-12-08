@@ -1,11 +1,12 @@
 import { Navigate, useLocation } from 'react-router-dom';
+import '../styles/EventCreatedPage.scss';
 
 export const EventCreatedPage = () => {
 	const location = useLocation();
 
 	if (location.state?.status === 'success') {
 		return (
-			<section className="event-created">
+			<section className="event-form-success">
 				<div className="content">
 					<h1 className="heading">You're almost done!</h1>
 					<p>
