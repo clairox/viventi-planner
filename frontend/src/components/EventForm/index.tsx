@@ -7,6 +7,7 @@ import { Step3 } from './Step3';
 import { Step2 } from './Step2';
 import { Step1 } from './Step1';
 import { createEvent } from '../../services/eventApi';
+import { useNavigate } from 'react-router-dom';
 
 export const EventForm = () => {
 	const formMethods = useForm<EventFormSchemaType>({
@@ -24,12 +25,21 @@ export const EventForm = () => {
 		},
 	});
 
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		if (formMethods.watch('eventFormat') === 'virtual') formMethods.setValue('location', '');
 	}, [formMethods, formMethods.formState]);
 
 	const onSubmit: SubmitHandler<EventFormSchemaType> = async (data): Promise<void> => {
-		await createEvent(data);
+		const { event_id } = await createEvent(data);
+
+		if (event_id) {
+			navigate(
+				{ pathname: '/event-created', search: '?status=success&message=Form submitted successfully' },
+				{ state: { status: 'success' } }
+			);
+		}
 	};
 
 	const [currentStep, setCurrentStep] = useState<number>(1);
