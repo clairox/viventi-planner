@@ -2,12 +2,12 @@ import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { StepChanger } from './utils/StepChanger';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import { CreateEventPage } from '../pages/CreateEventPage';
+import { EventFormPage } from '../pages/EventFormPage';
 
 jest.mock('../styles/Form.scss', () => ({}));
 jest.mock('react-datepicker/dist/react-datepicker.css', () => ({}));
 
-const routes = [{ path: '/create', element: <CreateEventPage /> }];
+const routes = [{ path: '/create', element: <EventFormPage /> }];
 const router = createMemoryRouter(routes, {
 	initialEntries: ['/create'],
 });
