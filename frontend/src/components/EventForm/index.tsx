@@ -9,6 +9,7 @@ import { Step1 } from './Step1';
 import { createEvent } from '../../services/eventApi';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Form.scss';
+import { sanitizeFormData } from '../../utils/form';
 
 // TODO add input icons
 export const EventForm = () => {
@@ -33,8 +34,25 @@ export const EventForm = () => {
 		if (formMethods.watch('eventFormat') === 'virtual') formMethods.setValue('location', '');
 	}, [formMethods, formMethods.formState]);
 
-	const onSubmit: SubmitHandler<EventFormSchemaType> = async (data): Promise<void> => {
-		const { event_id } = await createEvent(data);
+	const onSubmit: SubmitHandler<EventFormData> = async (data): Promise<void> => {
+		const { date, time } = sanitizeFormData(data);
+
+		const { event_id } = await createEvent({
+			event_name: data.eventName,
+			date: date,
+			time: time,
+			event_format: data.eventFormat === 'inPerson' ? 'in-person' : 'virtual',
+			location_name: data.location,
+			location_address: data.location,
+			location_city: data.location,
+			location_state: data.location,
+			location_country: data.location,
+			location_zip: '10001',
+			organizer_name: data.organizerName,
+			organizer_email: data.organizerEmail,
+			event_max_capacity: data.maxCapacity,
+			description: data.description,
+		});
 
 		if (event_id) {
 			navigate(
