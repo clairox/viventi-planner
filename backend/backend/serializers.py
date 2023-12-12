@@ -7,6 +7,9 @@ from django.utils import timezone
 class EventSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         # Remove location fields if event_format === virtual
+        if not kwargs:
+            return super(EventSerializer, self).__init__(*args, **kwargs)
+
         data = kwargs.pop('data', None)
         if data is not None and data['event_format'] == 'virtual':
             exclude = ['location_name', 'location_address', 'location_city',
@@ -15,7 +18,7 @@ class EventSerializer(serializers.ModelSerializer):
                 data.pop(key, None)
 
         kwargs = {"data": data}
-        super(EventSerializer, self).__init__(*args, **kwargs)
+        return super(EventSerializer, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Event
