@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import '../styles/EventCreatedPage.scss';
+import '../styles/EventFormSuccessPage.scss';
 
-export const EventCreatedPage = () => {
+export const EventFormSuccessPage = () => {
 	const location = useLocation();
 
 	if (location.state?.status === 'success') {

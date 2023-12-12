@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet';
 import { EventForm } from '../components/EventForm';
 
 // TODO put event created at end of multi step form
-export const CreateEventPage = () => {
+export const EventFormPage = () => {
 	return (
 		<section className="event-form">
 			<Helmet>
