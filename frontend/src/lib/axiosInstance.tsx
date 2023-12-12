@@ -12,6 +12,9 @@ axiosInstance.interceptors.response.use(
 			case 400:
 				window.location.href = '/400';
 				break;
+			case 404:
+				window.location.href = '/404';
+				break;
 			case 500:
 				window.location.href = '/500';
 				break;
