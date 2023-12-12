@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { findEventBySlug } from '../services/eventApi';
+import { formatDateTime, formatLocation } from '../utils/formatting';
 
 export const EventPage = () => {
 	const { eventSlug } = useParams();
@@ -11,7 +12,6 @@ export const EventPage = () => {
 		if (eventSlug) {
 			findEventBySlug(eventSlug).then(data => {
 				setEventData(data);
-				console.log(data);
 			});
 		}
 	}, [eventSlug]);
@@ -21,34 +21,36 @@ export const EventPage = () => {
 
 		const {
 			event_name,
-			date,
-			time,
+			event_datetime,
 			location_name,
 			location_address,
 			location_city,
 			location_state,
 			location_country,
-			location_zip,
 			organizer_name,
 			event_format,
-			event_max_capacity,
 			description,
 		} = eventData;
 
-		const location = location_address
-			? `${location_address}, ${location_city}, ${location_state}, ${location_country} ${location_zip}`
-			: '';
+		const datetime = formatDateTime(event_datetime);
+		const location =
+			location_address && location_city && location_state && location_country
+				? formatLocation(location_address, location_city, location_state, location_country)
+				: '';
 
 		return (
 			<>
 				<h1>{event_name}</h1>
-				<div>
-					Time: {date} {time}
-				</div>
-				<div>Format: {event_format === 'virtual' ? 'Virtual' : 'In person'}</div>
-				{location ? <div>Location: {(location_name + ', ' || '') + location}</div> : <></>}
+				<div>When: {datetime}</div>
+				{event_format === 'in-person' ? (
+					<div>
+						Where: <div style={{ fontWeight: 600 }}>{location_name || location_address}</div>{' '}
+						<div>{location}</div>
+					</div>
+				) : (
+					<></>
+				)}
 				<div>Organized by: {organizer_name}</div>
-				<div>Capacity: {event_max_capacity}</div>
 				<p>{description}</p>
 			</>
 		);
