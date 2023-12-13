@@ -9,7 +9,8 @@ jest.mock('../services/eventApi', () => {
 		event_name: 'Test Event',
 		date: '2050-01-01',
 		time: '06:00:00',
-		event_datetime: '2050-01-01T06:00:00Z',
+		tz_name: 'America/New_York',
+		event_datetime: '2050-01-01T06:00:00',
 		location_name: 'Test Location',
 		location_address: '22 Location Lane',
 		location_city: 'Test',
@@ -42,10 +43,10 @@ test('event data renders correctly', async () => {
 	await waitFor(() => expect(findEventBySlug).toHaveBeenCalled());
 
 	expect(queryByText('Test Event')).not.toBeNull();
-	expect(queryByText('When: Saturday, January 1, 2050 at 1:00 AM EST')).not.toBeNull();
+	expect(queryByText('When: Saturday, January 1, 2050 at 6:00 AM EST')).not.toBeNull();
 	expect(queryByText('Test Location')).not.toBeNull();
-	expect(queryByText('22 Location Lane, Test, State, Fake Country')).not.toBeNull();
-	expect(queryByText('When: Saturday, January 1, 2050 at 1:00 AM EST')).not.toBeNull();
+	expect(queryByText('22 Location Lane, Test, State')).not.toBeNull();
+	expect(queryByText('When: Saturday, January 1, 2050 at 6:00 AM EST')).not.toBeNull();
 	expect(queryByText('Organized by: John Doe')).not.toBeNull();
 	expect(queryByText('Test Description')).not.toBeNull();
 });
