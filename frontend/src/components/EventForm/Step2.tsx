@@ -3,7 +3,10 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { EventFormSchemaKey, EventFormSchemaType } from './types/schema';
 import DatePicker from 'react-datepicker';
 import '../../styles/Form.scss';
+import '../../styles/Select.scss';
 import 'react-datepicker/dist/react-datepicker.css';
+import Select from 'react-select';
+import { getAllTimezones } from '../../utils/timezones';
 
 type Props = {
 	prevStep: () => void;
@@ -18,6 +21,8 @@ export const Step2: React.FunctionComponent<Props> = ({ prevStep, nextStep }) =>
 		setValue,
 		formState: { errors },
 	} = useFormContext<EventFormSchemaType>();
+
+	const timezones = getAllTimezones().map(z => ({ value: z.value, label: `${z.name} (UTC${z.utcOffset})` }));
 
 	return (
 		<>
@@ -91,6 +96,28 @@ export const Step2: React.FunctionComponent<Props> = ({ prevStep, nextStep }) =>
 					/>
 					{errors.time && <span className="error error-message">{errors.time.message}</span>}
 				</div>
+			</div>
+			<div className="form-group">
+				<label className={`form-label ${Boolean(errors.timezone) && 'error'}`} htmlFor="timezone">
+					Timezone *
+				</label>
+				<Controller
+					control={control}
+					name="timezone"
+					render={({ field: { onChange, onBlur, value } }) => (
+						<Select
+							className="select-input"
+							classNamePrefix="select"
+							id="timezone"
+							isSearchable={true}
+							onChange={onChange}
+							onBlur={onBlur}
+							defaultValue={value}
+							options={timezones}
+						/>
+					)}
+				/>
+				{errors.timezone && <span className="error error-message">{errors.timezone.message}</span>}
 			</div>
 			<div className="form-group">
 				<fieldset className="form-group form-row">
