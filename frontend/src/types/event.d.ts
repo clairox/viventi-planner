@@ -5,6 +5,7 @@ type EventApiRequest = {
 	event_name: string;
 	date: string;
 	time: string;
+	tz_name: string;
 	location_name: string | undefined;
 	location_address: string | undefined;
 	location_city: string | undefined;
@@ -24,6 +25,7 @@ type EventApiResponse = {
 	date: string;
 	time: string;
 	event_datetime: string;
+	tz_name: string;
 	location_name: string | undefined;
 	location_address: string | undefined;
 	location_city: string | undefined;
@@ -45,6 +47,7 @@ type EventFormData = {
 	eventName: string;
 	date: Date;
 	time: Date;
+	timezone: { value: string; label: string };
 	location: string | undefined;
 	// locationName: string | undefined;
 	// locationAddress: string | undefined;
@@ -63,6 +66,7 @@ type SanitizedEventFormData = {
 	eventName: string;
 	date: string;
 	time: string;
+	timezone: { value: string; label: string };
 	location: string | undefined;
 	// locationName: string | undefined;
 	// locationAddress: string | undefined;
