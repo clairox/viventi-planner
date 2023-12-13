@@ -10,9 +10,11 @@ import { createEvent } from '../../services/eventApi';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Form.scss';
 import { sanitizeFormData } from '../../utils/form';
+import { defaultTimeZone, getTimezone } from '../../utils/timezones';
 
 // TODO add input icons
 export const EventForm = () => {
+	const defaultTz = Intl.DateTimeFormat().resolvedOptions().timeZone || defaultTimeZone.value;
 	const formMethods = useForm<EventFormSchemaType>({
 		resolver: zodResolver(EventFormSchema),
 		defaultValues: {
@@ -21,6 +23,10 @@ export const EventForm = () => {
 			eventName: '',
 			date: new Date(),
 			time: new Date(),
+			timezone: {
+				value: defaultTz,
+				label: `${getTimezone(defaultTz)?.name} (UTC${getTimezone(defaultTz)?.utcOffset})`,
+			},
 			eventFormat: 'virtual',
 			location: '',
 			description: '',
@@ -41,6 +47,7 @@ export const EventForm = () => {
 			event_name: data.eventName,
 			date: date,
 			time: time,
+			tz_name: data.timezone.value,
 			event_format: data.eventFormat === 'inPerson' ? 'in-person' : 'virtual',
 			location_name: data.location,
 			location_address: data.location,
