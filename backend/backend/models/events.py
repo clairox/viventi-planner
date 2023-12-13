@@ -22,6 +22,7 @@ class Event(models.Model):
     date = models.DateField()  # Date of the event
     time = models.TimeField()  # Time of the event
     event_datetime = models.DateTimeField(blank=True)
+    tz_name = models.CharField(max_length=256)
     location_name = models.CharField(max_length=100, null=True, blank=True)
     location_address = models.CharField(max_length=255, null=True, blank=True)
     location_city = models.CharField(max_length=100, null=True, blank=True)
