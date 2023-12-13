@@ -22,20 +22,20 @@ export const EventPage = () => {
 		const {
 			event_name,
 			event_datetime,
+			tz_name,
 			location_name,
 			location_address,
 			location_city,
 			location_state,
-			location_country,
 			organizer_name,
 			event_format,
 			description,
 		} = eventData;
 
-		const datetime = formatDateTime(event_datetime);
+		const datetime = formatDateTime(event_datetime, tz_name);
 		const location =
-			location_address && location_city && location_state && location_country
-				? formatLocation(location_address, location_city, location_state, location_country)
+			location_address && location_city && location_state
+				? formatLocation(location_address, location_city, location_state)
 				: '';
 
 		return (
