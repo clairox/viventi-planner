@@ -6,7 +6,7 @@ const sanitizeFormData = (data: EventFormData): SanitizedEventFormData => {
 	const year = date.getFullYear();
 	const dateWithoutTime = `${year}-${month}-${_date}`;
 
-	const hours = date.getHours();
+	const hours = time.getHours();
 	const minutes = time.getMinutes().toString().padStart(2, '0');
 
 	const timeWithoutDate = `${hours}:${minutes}:00`;
